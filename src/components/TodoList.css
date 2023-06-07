@@ -45,7 +45,7 @@ footer {
   align-items: center;
   justify-content: center;
   border-top: solid;
-  border-top-color: #A4A4A4;
+  border-top-color: #a4a4a4;
   border-top-width: thin;
 }
 
@@ -63,9 +63,12 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.todoList-filter__selector:checked {
   border-bottom: solid;
   border-bottom-color: #4aa77d;
-  border-bottom-width:large;
+  border-bottom-width: large;
 }
 
 .todoList-filter__selector--title {
@@ -82,7 +85,7 @@ footer {
   align-items: start;
 }
 
-.todoList-form {
+.todoList-form__container {
   width: 100%;
   height: 8rem;
   display: flex;
@@ -90,8 +93,16 @@ footer {
   align-items: center;
 }
 
+.todoList-form {
+  width: 88%;
+  height: 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .todoList-form__input {
-  width: 86%;
+  width:100%;
   height: 4rem;
   border-radius: 0.75rem;
   margin-right: 0.5rem;
@@ -100,6 +111,8 @@ footer {
 .todoList-form__button {
   width: 4rem;
   height: 4rem;
-  background-color: cadetblue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 0.75rem;
 }
