@@ -8,6 +8,8 @@
   border-bottom: solid;
   border-bottom-color: #a4a4a4;
   border-bottom-width: thin;
+  position: relative;
+  padding: 0 1.5rem;
 }
 
 .cardLayout:last-child {
@@ -19,6 +21,30 @@
   background-color: white;
 }
 
+.editFormContainer {
+  width: 100%;
+  height: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.editForm {
+  width: 94%;
+  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 2px;
+}
+
+.editForm__input {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+}
+
 .todoTitle {
   font-size: large;
   font-weight: 500;
@@ -26,5 +52,9 @@
 }
 
 .iconContainer {
+  position: absolute;
+  right:0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
- 

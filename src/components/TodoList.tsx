@@ -4,11 +4,9 @@ import CheckBox from "./SvgIcons/CheckBox";
 import CheckBoxBlank from "./SvgIcons/CheckBoxBlank";
 import MenuIcon from "./SvgIcons/MenuIcon";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import axios, { AxiosInstance } from "axios";
 import TodoCard from "./TodoCard";
+import { api } from "@components/api";
 import "./TodoList.css";
-
-const api: AxiosInstance = axios.create({ baseURL: "http://localhost:3000/" });
 
 const getTodoList = async () => {
   const { data } = await api.get("todoList");
@@ -16,7 +14,7 @@ const getTodoList = async () => {
 };
 
 const addTodo = async (newTodo: ITodoListItem) => {
-  const { data } = await api.post("todoList",newTodo);
+  const { data } = await api.post(`todoList `, newTodo);
   return data;
 };
 
@@ -28,9 +26,9 @@ interface ITodoListItem {
 
 const TodoList: React.FC = () => {
   const [newTodo, setNewTodo] = useState<ITodoListItem>({
-    title:"",
-    id:crypto.randomUUID(),
-    progress:"todo"
+    title: "",
+    id: crypto.randomUUID(),
+    progress: "todo",
   });
 
   const { data: todoList } = useQuery<Array<ITodoListItem>>({
@@ -46,10 +44,10 @@ const TodoList: React.FC = () => {
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    setNewTodo({...newTodo, title:e.target.value});
+    setNewTodo({ ...newTodo, title: e.target.value });
   };
 
-  const submitHandler:React.FormEventHandler<HTMLFormElement> = (e) => {
+  const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     listMutation.mutate(newTodo);
   };
@@ -66,12 +64,12 @@ const TodoList: React.FC = () => {
             <p className="todoList-filter__selector--title">todo</p>
           </div>
           <div className="todoList-filter__selector">
-            <CheckBox />
-            <p className="todoList-filter__selector--title">Completed</p>
-          </div>
-          <div className="todoList-filter__selector">
             <CheckBoxBlank />
             <p className="todoList-filter__selector--title">doing</p>
+          </div>
+          <div className="todoList-filter__selector">
+            <CheckBox />
+            <p className="todoList-filter__selector--title">Completed</p>
           </div>
         </section>
         <section className="todoList">
