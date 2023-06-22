@@ -27,7 +27,7 @@ interface ITodoListItem {
 const TodoList: React.FC = () => {
   const [newTodo, setNewTodo] = useState<ITodoListItem>({
     title: "",
-    id: crypto.randomUUID(),
+    id: "",
     progress: "todo",
   });
 
@@ -44,7 +44,7 @@ const TodoList: React.FC = () => {
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    setNewTodo({ ...newTodo, title: e.target.value });
+    setNewTodo({ ...newTodo, title: e.target.value, id:crypto.randomUUID() });
   };
 
   const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
@@ -60,15 +60,21 @@ const TodoList: React.FC = () => {
       <main>
         <section className="todoList-filter">
           <div className="todoList-filter__selector">
-            <MenuIcon />
+            <button className="iconButton">
+              <MenuIcon />
+            </button>
             <p className="todoList-filter__selector--title">todo</p>
           </div>
           <div className="todoList-filter__selector">
-            <CheckBoxBlank />
+            <button className="iconButton">
+              <CheckBoxBlank />
+            </button>
             <p className="todoList-filter__selector--title">doing</p>
           </div>
           <div className="todoList-filter__selector">
-            <CheckBox />
+            <button className="iconButton">
+              <CheckBox />
+            </button>
             <p className="todoList-filter__selector--title">Completed</p>
           </div>
         </section>
@@ -94,10 +100,10 @@ const TodoList: React.FC = () => {
               value={newTodo.title}
               onChange={changeHandler}
             />
+            <button className="iconButton" type="submit">
+              <AddIcon />
+            </button>
           </form>
-          <div className="todoList-form__button">
-            <AddIcon />
-          </div>
         </section>
       </footer>
     </div>

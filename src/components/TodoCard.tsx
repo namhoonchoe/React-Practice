@@ -49,9 +49,18 @@ const TodoCard: React.FC<ITodoCardProps> = ({ id, title, progress }) => {
     setNewTask(e.target.value);
   };
 
+  const editHandler = () => {
+    if (newTask === "") {
+      setIsEditing(false);
+    } else {
+      editTodoItem.mutate({ title: newTask, id, progress });
+      setIsEditing(false);
+    }
+  };
+
   const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    editTodoItem.mutate({ title: newTask, id, progress });
+    editHandler();
   };
 
   return (
@@ -63,25 +72,28 @@ const TodoCard: React.FC<ITodoCardProps> = ({ id, title, progress }) => {
               type="text"
               className="editForm__input"
               onChange={changeHandler}
-            />
+             />
+            <button className="iconButton" type="submit">
+              <SaveIcon />
+            </button>
           </form>
-          <div onClick={() => setIsEditing(false)}>
-            <SaveIcon />
-          </div>
         </section>
       ) : (
         <>
-          <div className="checkBox">
+          <button className="iconButton" onClick={() => setIsEditing(true)}>
             <CheckBoxBlank />
-          </div>
+          </button>
           <p className="todoTitle">{title}</p>
           <div className="iconContainer">
-            <div onClick={() => setIsEditing(true)}>
+            <button className="iconButton" onClick={() => setIsEditing(true)}>
               <EditIcon />
-            </div>
-            <div onClick={() => deleteTodoItem.mutate(id)}>
+            </button>
+            <button
+              className="iconButton"
+              onClick={() => deleteTodoItem.mutate(id)}
+            >
               <DeleteIcon />
-            </div>
+            </button>
           </div>
         </>
       )}
