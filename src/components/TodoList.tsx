@@ -3,7 +3,7 @@ import AddIcon from "./SvgIcons/AddIcon";
 import CheckBox from "./SvgIcons/CheckBox";
 import CheckBoxBlank from "./SvgIcons/CheckBoxBlank";
 import MenuIcon from "./SvgIcons/MenuIcon";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import TodoCard from "./TodoCard";
 import { api } from "@components/api";
 import "./TodoList.css";
@@ -36,9 +36,39 @@ const TodoList: React.FC = () => {
     queryFn: getTodoList,
   });
 
+  const queryClient = useQueryClient();
+
   const listMutation = useMutation({
     mutationFn: (newTodo: ITodoListItem) => {
       return addTodo(newTodo);
+    },
+
+    onMutate: async (newTodo: ITodoListItem) => {
+      // Cancel any outgoing refetches
+      // (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries({ queryKey: ["todoList"] });
+
+      // Snapshot the previous value
+      const previousTodoList = queryClient.getQueryData<Array<ITodoListItem>>([
+        "todoList" 
+      ]);
+
+      // Optimistically update to the new value
+      if (previousTodoList) {
+        const newList = [...previousTodoList, newTodo]
+        queryClient.setQueryData(['todoList'], newList )
+      }
+
+      // Return a context object with the snapshotted value
+      return { previousTodoList };
+    },
+
+    onError: (err, _, context) => {
+      queryClient.setQueryData(["todoList" ], context?.previousTodoList);
+    },
+    // Always refetch after error or success:
+    onSettled: ( ) => {
+      queryClient.invalidateQueries({ queryKey: ['todoList']});
     },
   });
 
